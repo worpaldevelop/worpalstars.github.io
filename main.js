@@ -1,16 +1,19 @@
 const tg = window.Telegram.WebApp;
-        
-// Инициализация WebApp Telegram
+
+// Развернуть приложение на весь экран
 tg.expand();
 
-// Получаем username пользователя
+// Получить данные пользователя
 const user = tg.initDataUnsafe.user;
-if (user && user.username) {
-    document.querySelector('.value').textContent = `@${user.username}`;
-}
+console.log(user?.first_name, user?.username);
 
-// Обработка кнопки оплаты
-document.getElementById('payButton').addEventListener('click', () => {
-    tg.showAlert('Оплата звёзд');
-    // Здесь можно добавить логику оплаты через Telegram Payments
+const mainButton = tg.MainButton;
+
+mainButton.text = "Подтвердить";
+mainButton.show();
+mainButton.onClick(() => {
+  tg.sendData(JSON.stringify({ action: "confirm" }));
 });
+
+// Закрыть приложение
+tg.close();
